@@ -154,6 +154,32 @@ final mapAfter2010 = {
   ],
 };
 
+List<AgriculturalMachinery> getSortedAgriculturalMachineries() {
+  Set<AgriculturalMachinery> agriculturalMachinerySet = {};
+  agriculturalMachinerySet.addAll(getMachineries(mapBefore2010));
+  agriculturalMachinerySet.addAll(getMachineries(mapAfter2010));
+
+  List<AgriculturalMachinery> agriculturalMachineryList = agriculturalMachinerySet.toList(growable: false);
+  agriculturalMachineryList.sort((lhs, rhs) => lhs.releaseDate.year.compareTo(rhs.releaseDate.year));
+  return agriculturalMachineryList;
+}
+
+List<AgriculturalMachinery> getMachineries(Map<Countries, List<Territory>> givenMap) {
+  return givenMap.entries.map((entry) => entry.value.expand((territory) => territory.machineries)).expand((machinery) => machinery).toList();
+}
+
+int getAverageReleaseYear(Iterable<AgriculturalMachinery> list) {
+  return (list.map((machinery) => machinery.releaseDate.year).reduce((lhs, rhs) => lhs + rhs) / list.length).truncate();
+}
+
 void main(List<String> arguments) {
-  print('Hello world: ${surf_dart_courses_template.calculate()}!');
+  final allSortedMachineries = getSortedAgriculturalMachineries();
+  final averageReleaseYear = getAverageReleaseYear(allSortedMachineries);
+
+  final oldestMachineriesCount = (allSortedMachineries.length / 2).truncate();
+  final averageOldReleaseYear = getAverageReleaseYear(allSortedMachineries.take(oldestMachineriesCount));
+
+  DateTime now = DateTime.now();
+  print('Total average age is ${now.year - averageReleaseYear} years');
+  print('Total average age of the oldest 50% machineries is ${now.year - averageOldReleaseYear} years');
 }
