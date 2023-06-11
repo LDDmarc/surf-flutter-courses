@@ -20,6 +20,7 @@ void main(List<String> arguments) {
             englishLesson();
             work();
             badminton();
+            isTired = true;
             continue;
           case Days.wednesday:
             pianoLesson();
@@ -28,6 +29,7 @@ void main(List<String> arguments) {
             englishLesson();
             work();
             gym();
+            isTired = true;
             continue;
           case Days.friday:
             work();
