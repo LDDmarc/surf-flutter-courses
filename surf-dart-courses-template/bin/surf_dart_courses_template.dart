@@ -114,7 +114,8 @@ void main(List<String> arguments) {
   robot2.makePancakes();
 
   Future.delayed(const Duration(seconds: 10), () {
-    print(robot1.battery.charge);
-    print(robot2.battery.charge);
+    print('Battery charge after 10 sec:');
+    print('robot1: $robot1.battery.charge');
+    print('robot2: $robot2.battery.charge');
   });
 }
