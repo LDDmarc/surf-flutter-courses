@@ -49,14 +49,11 @@ void main(List<String> arguments) {
 }
 
 void dailyLeisure() {
-  var options = [true, false];
-  options.shuffle();
-
-    if (options.last) {
+    if (Random().nextBool()) {
       do {
         hiking();
-      } while (options.first);
-    } else if (options.first) {
+      } while (Random().nextBool());
+    } else if (Random().nextBool()) {
       for (final film in ['film1', 'film2']) {
         films();
       }
