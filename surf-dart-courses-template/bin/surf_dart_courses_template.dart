@@ -23,7 +23,7 @@ void main() {
   final opponent = PokerPlayer();
 
   final Strategy fakeStrategy = (p0, p1) {
-    p0.forEach((card) => print(card));
+    p1.forEach((card) => print(card));
     return Random().nextDouble();
   };
 
