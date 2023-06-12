@@ -33,7 +33,7 @@ class Battery {
 
 }
 
-class KitchenRobot_1000 extends KitchenHelper {
+class KitchenRobot_1000 implements KitchenHelper {
 
   static const _company = 'KitchenRobot';
 
@@ -87,7 +87,7 @@ class KitchenRobot_1000 extends KitchenHelper {
 
 }
 
-class KitchenRobot_2000 extends KitchenRobot_1000 {
+class KitchenRobot_2000 extends KitchenRobot_1000 implements KitchenHelper {
 
   @override
   final deadTime = 6;
