@@ -42,7 +42,7 @@ CategoryMap solution2() {
   CategoryMap resultMap = {};
 
   for (final item in items) {
-    if (item.expirationDate.isBefore(DateTime.now()) && item.qty == 0) {
+    if (item.expirationDate.isBefore(DateTime.now()) || item.qty == 0) {
       continue;
     }
     resultMap.putIfAbsent(item.categoryName, () => <Subcategory, List<Product>>{});
