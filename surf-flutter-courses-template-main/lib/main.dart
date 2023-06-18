@@ -14,7 +14,7 @@ class SurfApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePageStateful(title: 'Stateful page'),
+      home: const HomePageStateful(title: 'Counter v2.0'),
     );
   }
 }
@@ -30,10 +30,21 @@ class HomePageStateful extends StatefulWidget {
 
 class _HomePageStatefulState extends State<HomePageStateful> {
   int _counter = 0;
+  int _plusButtonCounter = 0;
+  int _minusButtonCounter = 0;
 
   void _incrementCounter() {
     setState(() {
+      _plusButtonCounter += 1;
       _counter += 1;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      _minusButtonCounter += 1;
+      if (_counter == 0) { return; }
+      _counter -= 1;
     });
   }
 
@@ -47,24 +58,91 @@ class _HomePageStatefulState extends State<HomePageStateful> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .headline4,
-            ),
+            ResultWidget(text: 'Cuonter value:', value: _counter),
+            const SizedBox(height: 20),
+            ResultWidget(text: 'You have pushed + button this many times:', value: _plusButtonCounter),
+            const SizedBox(height: 20),
+            ResultWidget(text: 'You have pushed - button this many times:', value: _minusButtonCounter),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      bottomNavigationBar: CustomNavBar(
+        onPlusTap: () {
+          _incrementCounter();
+        },
+        onMinusTap: () {
+          _decrementCounter();
+        },
       ),
     );
   }
+}
+
+class CustomNavBar extends StatelessWidget {
+
+  final Function() onPlusTap;
+  final Function() onMinusTap;
+
+  const CustomNavBar({
+    required this.onPlusTap,
+    required this.onMinusTap,
+    Key? key
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      child: SafeArea(
+        child: Row(
+          children: [
+            Expanded(
+              child: IconButton(
+                icon: Icon(Icons.remove),
+                iconSize: 40,
+                color: Colors.blue,
+                onPressed: () { onMinusTap(); },
+              ),
+            ),
+            Expanded(
+              child: IconButton(
+                icon: Icon(Icons.add),
+                iconSize: 40,
+                color: Colors.blue,
+                onPressed: () { onPlusTap(); },
+              ),
+            ),
+          ]
+        ),
+      ),
+    );
+  }
+}
+
+class ResultWidget extends StatelessWidget {
+
+  final String text;
+  final int value;
+
+  const ResultWidget({super.key, required this.text, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(text),
+          Text(
+          '$value',
+          style: Theme
+              .of(context)
+              .textTheme
+              .headlineMedium
+        ),
+        ]
+      )
+    );
+  }
+
 }
