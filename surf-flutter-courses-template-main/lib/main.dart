@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:surf_flutter_courses_template/empty_screen.dart';
+import 'empty_screen.dart';
+import 'personal/personal_screen.dart';
 import 'tab_bar_widget.dart';
+import 'personal/personal_tab_navigator.dart';
+
+
+enum TabItem {
+  catalog, search, cart, personal
+}
+
 
 void main() {
   runApp(const MainApp());
@@ -17,7 +24,14 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  int _currentIndex = 3;
+  var _currentTab = TabItem.personal;
+  final _navigatorKeys = {
+    TabItem.catalog: GlobalKey<NavigatorState>(),
+    TabItem.search: GlobalKey<NavigatorState>(),
+    TabItem.cart: GlobalKey<NavigatorState>(),
+    TabItem.personal: GlobalKey<NavigatorState>(),
+  };
+  final _tabs = [TabItem.catalog, TabItem.search, TabItem.cart, TabItem.personal];
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +41,9 @@ class _MainAppState extends State<MainApp> {
           appBar: AppBar(
             title: Text('data'),
           ),
-          body: (() {
-            switch (_currentIndex) {
-              case 3:
-                Center(
-                  child: Text('tadam'),
-                );
-              default:
-                return EmptyScreenWidget();
-            }
-          }()),
+          body: Stack(children: _tabs.map((e) => _buildOffstageNavigator(e)).toList()),
           bottomNavigationBar: TabBarWidget(
-            selectedIndex: _currentIndex,
+            selectedIndex: _tabs.indexOf(_currentTab),
             onItemTapped: _onItemTapped
           )
       ),
@@ -47,8 +52,22 @@ class _MainAppState extends State<MainApp> {
 
   void _onItemTapped(int index) {
     setState(() {
-      _currentIndex = index;
+      _currentTab = _tabs[index];
     });
+  }
+
+  Widget _buildOffstageNavigator(TabItem tab) {
+    return Offstage(
+      offstage: _currentTab != tab,
+      child: ((){
+        switch (tab) {
+          case TabItem.personal:
+            return PersonalTabNavigator(navigatorKey: _navigatorKeys[tab]);
+          default:
+            return const EmptyScreenWidget();
+        }
+      }())
+    );
   }
 
 }
