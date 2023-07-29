@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:surf_flutter_courses_template/data/data.dart';
 
 class PurchaseHistoryScreenWidget extends StatelessWidget {
-  const PurchaseHistoryScreenWidget({super.key});
+  final void Function(Cheque) onChequeTap;
+  final _cheques = testData;
+
+  PurchaseHistoryScreenWidget({super.key, required this.onChequeTap});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: ListView(
-      children: [
-        PurchaseHistoryScreenCellWidget(
-            title: 'Чек №1',
-            onTap: (){}
-        ),
-        PurchaseHistoryScreenCellWidget(
-            title: 'Чек №2',
-            onTap: (){}
-        ),
-      ],
-    )
+      children: _cheques.map((e) => PurchaseHistoryScreenCellWidget(
+        title: e.title,
+        onTap: (){ onChequeTap(e); }
+      )).toList()
+      )
     );
   }
 }

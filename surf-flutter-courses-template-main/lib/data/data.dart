@@ -1,101 +1,24 @@
+import 'task.dart';
 
-/// Модель продукта.
-///
-/// Содержит в себе название, цену, категорию и ссылку на изображение.
-class ProductEntity {
-  /// Название товара.
+class Cheque {
   final String title;
+  final DateTime date;
+  final List<ProductEntity> productList;
 
-  /// Цена товара в копейках. Без скидки.
-  ///
-  /// Подумайте и ответьте на три вопроса:
-  /// 1. Почему цена хранится в копейках, а не в рублях?
-  /// 2. Почему тип данных цены - [int], а не [double]?
-  /// 3. Как можно было реализовать передачу цены иначе?
-  ///
-  /// Ответы на вопросы разместите тут (они будут проверены при код-ревью):
-  ///
-  /// [ОТВЕТЫ]
-  /// 1. Чтобы избежать проблем округления и машинной неточности
-  /// 2. Она же в копейках - их натуральное число. Опять таки это решает проблему "накапливаемого мусора" в значениях с плавающей запятой
-  /// 3. class Price {
-  ///       int rubles;
-  ///       int pennies
-  ///    }
-  final int price;
-
-  /// Категория товара.
-  final Category category;
-
-  /// Ссылка на изображение товара.
-  final String imageUrl;
-
-  /// Количество товара.
-  ///
-  /// Может быть описано в граммах [Grams] или в штуках [Quantity].
-  final Amount amount;
-
-  /// Скидка на товар.
-  ///
-  /// Требуется высчитать самостоятельно итоговую цену товара.
-  final double sale;
-
-  /// Итоговая цена
-  int totalPrice  {
-    final intSale = sale~/100;
-    return price * amount.value * intSale;
-  }
-
-  ProductEntity({
-    required this.title,
-    required this.price,
-    required this.category,
-    required this.imageUrl,
-    required this.amount,
-    this.sale = 0,
-  });
+  Cheque(this.title, this.date, this.productList);
 }
 
-/// Класс, описывающий количество товара.
-sealed class Amount {
-  int get value;
-}
-
-/// Класс, описывающий количество товара в граммах.
-class Grams implements Amount {
-  @override
-  final int value;
-  Grams(this.value);
-}
-
-/// Класс, описывающий количество товара в штуках.
-class Quantity implements Amount {
-  @override
-  final int value;
-  Quantity(this.value);
-}
-
-/// Категория товара.
-enum Category {
-  food('Продукты питания'),
-  tech('Технологичные товары'),
-  care('Уход'),
-  drinks('Напитки'),
-  drugs('Медикаменты');
-
-  final String name;
-
-  const Category(this.name);
-}
-
-
-/// Вам будет предоставлен набор входных данных следующего формата:
+final testData = <Cheque>[
+  Cheque('Чек №1', DateTime.parse('2023-02-27 13:27:00'), dataForStudents1),
+  Cheque('Чек №2', DateTime.parse('2023-03-01 19:04:00'), dataForStudents2),
+  Cheque('Чек №3', DateTime.parse('2023-03-01 19:04:00'), dataForStudents2),
+];
 
 /// Список продуктов.
 ///
 /// Можете дополнить этот список самостоятельно, если хотите протестировать
 /// приложение более объёмно.
-final dataForStudents = <ProductEntity>[
+final dataForStudents1 = <ProductEntity>[
   ProductEntity(
     title: 'Арбуз',
     price: 1200,
@@ -160,6 +83,42 @@ final dataForStudents = <ProductEntity>[
     amount: Quantity(1),
     imageUrl:
     'https://images.unsplash.com/photo-1541807120430-f3f78c281225?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Z3JlZW4lMjBkcmlua3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
+  ),
+  ProductEntity(
+    title: 'Аспирин',
+    price: 15,
+    amount: Quantity(1),
+    category: Category.drugs,
+    imageUrl:
+    'https://images.unsplash.com/photo-1626716493137-b67fe9501e76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YXNwaXJpbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
+  ),
+  ProductEntity(
+    title: 'Ибупрофен',
+    price: 54,
+    category: Category.drugs,
+    amount: Quantity(1),
+    imageUrl:
+    'https://images.unsplash.com/photo-1550572017-edd951b55104?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aWJ1cHJvZmVufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
+  ),
+];
+
+
+final dataForStudents2 = <ProductEntity>[
+  ProductEntity(
+    title: 'Крем для загара',
+    price: 90000,
+    category: Category.care,
+    amount: Quantity(1),
+    imageUrl:
+    'https://images.unsplash.com/photo-1521223344201-d169129f7b7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1335&q=80',
+  ),
+  ProductEntity(
+    title: 'Крем защитный',
+    price: 1900,
+    category: Category.care,
+    amount: Quantity(1),
+    imageUrl:
+    'https://images.unsplash.com/photo-1611080541599-8c6dbde6ed28?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80',
   ),
   ProductEntity(
     title: 'Аспирин',
