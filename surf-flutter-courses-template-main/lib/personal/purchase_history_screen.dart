@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_courses_template/tab_bar_widget.dart';
 
 class PurchaseHistoryScreenWidget extends StatelessWidget {
   const PurchaseHistoryScreenWidget({super.key});
@@ -8,7 +7,7 @@ class PurchaseHistoryScreenWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-    body: ListView(
+      body: ListView(
       children: [
         PurchaseHistoryScreenCellWidget(
             title: 'Чек №1',

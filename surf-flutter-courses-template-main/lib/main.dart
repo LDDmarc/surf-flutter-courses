@@ -38,9 +38,9 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Sora'),
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('data'),
-          ),
+          // appBar: AppBar(
+          //   title: Text('data'),
+          // ),
           body: Stack(children: _tabs.map((e) => _buildOffstageNavigator(e)).toList()),
           bottomNavigationBar: TabBarWidget(
             selectedIndex: _tabs.indexOf(_currentTab),

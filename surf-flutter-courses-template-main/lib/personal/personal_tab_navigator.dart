@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'personal_screen.dart';
+import 'purchase_history_screen.dart';
 
 enum _PersonalTabNavigatorRoute {
   personal, purchaseList
@@ -27,7 +28,7 @@ class PersonalTabNavigator extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => routeBuilders[route]!(context),
+        builder: (context) => routeBuilders[route.routeName]!(context),
       ),
     );
   }
@@ -36,7 +37,8 @@ class PersonalTabNavigator extends StatelessWidget {
     return {
       _PersonalTabNavigatorRoute.personal.routeName: (context) => PersonalScreenWidget(
         onPurchaseHistoryTap: (){ _push(_PersonalTabNavigatorRoute.purchaseList, context); },
-      )
+      ),
+      _PersonalTabNavigatorRoute.purchaseList.routeName: (context) => const PurchaseHistoryScreenWidget(),
     };
   }
 

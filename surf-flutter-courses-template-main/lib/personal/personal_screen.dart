@@ -7,14 +7,17 @@ class PersonalScreenWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Scaffold(
+      appBar: AppBar(),
+      body: ListView(
         children: [
           PersonalScreenCellWidget(
               title: 'История покупок',
               onTap: onPurchaseHistoryTap
           ),
         ],
-      );
+      )
+    );
   }
 }
 
