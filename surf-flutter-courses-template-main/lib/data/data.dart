@@ -11,7 +11,7 @@ class Cheque {
 final testData = <Cheque>[
   Cheque('Чек №1', DateTime.parse('2023-02-27 13:27:00'), dataForStudents1),
   Cheque('Чек №2', DateTime.parse('2023-03-01 19:04:00'), dataForStudents2),
-  Cheque('Чек №3', DateTime.parse('2023-03-01 19:04:00'), dataForStudents2),
+  Cheque('Чек №3', DateTime.parse('2023-03-10 18:52:00'), dataForStudents2),
 ];
 
 /// Список продуктов.

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/data/data.dart';
 import 'personal_screen.dart';
 import 'purchase_history_screen.dart';
-import 'package:surf_flutter_courses_template/product_list_screen.dart';
+import 'package:surf_flutter_courses_template/personal/purchases/product_list_screen.dart';
 
 enum _PersonalTabNavigatorRoute {
   personal, purchaseList, detailCheque
