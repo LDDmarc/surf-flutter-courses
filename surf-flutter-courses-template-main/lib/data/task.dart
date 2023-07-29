@@ -65,13 +65,26 @@ sealed class Amount {
 class Grams implements Amount {
   @override
   final int value;
+
+  @override
+  String toString() {
+    return '$value кг';
+  }
+
   Grams(this.value);
+
 }
 
 /// Класс, описывающий количество товара в штуках.
 class Quantity implements Amount {
   @override
   final int value;
+
+  @override
+  String toString() {
+    return '$value шт';
+  }
+
   Quantity(this.value);
 }
 

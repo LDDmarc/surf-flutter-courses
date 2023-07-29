@@ -8,37 +8,59 @@ class ProductCellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
+    return Column(
         children: [
-          makeImage(product.imageUrl),
-          makeProductInfo()
+          const SizedBox(height: 16),
+          Row(
+            children: [
+              _makeImage(product.imageUrl),
+              const SizedBox(width: 12),
+              Expanded(child:
+                SizedBox(
+                  height: 68,
+                  child: _makeProductInfo(product),
+                )
+              )
+            ],
+          ),
+          const SizedBox(height: 16),
         ],
-      ),
-    );
+      );
   }
   
-  Widget makeImage(String url) {
+  Widget _makeImage(String url) {
     return SizedBox.square(
       dimension: 68,
-      child: Image.network(
-        url,
-        fit: BoxFit.cover,
-        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-          // todo: mock image
-          return Center(child: child);
-        },
-      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Image.network(
+                url,
+                fit: BoxFit.cover,
+        // loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+        //   // todo: mock image
+        //   return Center(child: child);
+        // },,
+           ),
+      )
     );
   }
 
-  Widget makeProductInfo() {
+  Widget _makeProductInfo(ProductEntity product) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('gurf'),
-        Text('gurf')
+        Text(product.title, style: const TextStyle(fontSize: 14)), //fonts sizes are pretty strange :( mine look too small
+        const Spacer(),
+        Row(
+          children: [
+            Text(product.amount.toString()),
+            const Spacer(),
+            Text('product.', style: const TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        )
       ],
     );
   }
+
 
 }

@@ -41,5 +41,7 @@ class PurchaseHistoryScreenCellWidget extends StatelessWidget {
         onTap: onTap
     );
   }
+
+
 }
 
