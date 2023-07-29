@@ -2,15 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'appearance.dart';
 
-class TabBarWidget extends StatefulWidget {
-  const TabBarWidget({super.key});
-
-  @override
-  State<StatefulWidget> createState() {
-    return _TabBarWidgetState();
-  }
-}
-
 class _Tab {
   final String? text;
   final Widget? icon;
@@ -19,8 +10,9 @@ class _Tab {
   _Tab({this.text, this.icon, this.activeIcon});
 }
 
-class _TabBarWidgetState extends State<TabBarWidget> {
-  int _selectedIndex = 3;
+class TabBarWidget extends StatelessWidget {
+  final int selectedIndex;
+  final void Function(int) onItemTapped;
 
   List<_Tab> get _tabs => [
     _Tab(text: 'Каталог', icon: SvgPicture.asset('assets/tab_catalog.svg'), activeIcon: SvgPicture.asset('assets/tab_catalog_active.svg')),
@@ -29,21 +21,19 @@ class _TabBarWidgetState extends State<TabBarWidget> {
     _Tab(text: 'Личное', icon: SvgPicture.asset('assets/tab_person.svg'), activeIcon: SvgPicture.asset('assets/tab_personal_active.svg')),
   ];
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  const TabBarWidget({super.key, required this.selectedIndex, required this.onItemTapped});
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       items: _tabs.map((tab) =>
           BottomNavigationBarItem(icon: tab.icon!, label: tab.text, activeIcon: tab.activeIcon!)).toList(),
-      currentIndex: _selectedIndex,
+      currentIndex: selectedIndex,
       type: BottomNavigationBarType.fixed,
       selectedItemColor: Appearance.accentColor,
-      onTap: _onItemTapped,
+      selectedFontSize: 10,
+      unselectedFontSize: 10,
+      onTap: onItemTapped
     );
   }
 }
