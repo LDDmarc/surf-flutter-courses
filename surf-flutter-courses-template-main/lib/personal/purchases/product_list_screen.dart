@@ -3,8 +3,10 @@ import 'package:surf_flutter_courses_template/appearance.dart';
 import 'package:surf_flutter_courses_template/custom_app_bar.dart';
 import 'package:surf_flutter_courses_template/data/data.dart';
 import 'package:surf_flutter_courses_template/personal/purchases/product_cell.dart';
+import '../../data/task.dart';
 import 'product_sort_bottom_sheet.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
+import 'product_sorting_manager.dart';
 
 class ProductListScreenWidget extends StatefulWidget {
   final Cheque cheque;
@@ -19,8 +21,12 @@ class ProductListScreenWidget extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreenWidget> {
   final Cheque cheque;
+  final productSortingManager = ProductSortingManager();
 
-  _ProductListScreenState(this.cheque);
+  List<ProductEntity> _productList;
+  ProductSorting _type = ProductSorting.none;
+
+  _ProductListScreenState(this.cheque) :  _productList = cheque.productList;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +44,9 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
             _makeHeader(),
             const SizedBox(height: 16),
             Expanded(child: ListView.builder(
-                  itemCount: cheque.productList.length,
+                  itemCount: _productList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return ProductCellWidget(product: cheque.productList[index]);
+                    return ProductCellWidget(product: _productList[index]);
                   }
               ),
             ),
@@ -83,13 +89,18 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
 
   void _showSortingModal() {
     showFlexibleBottomSheet(
-        initHeight: 0.8,
-        maxHeight: 0.8,
-        minHeight: 0.5,
+        initHeight: 0.9,
         bottomSheetColor: Colors.transparent,
         context: context,
         builder: _makeBottomSheet,
-        isExpand: true
+        isExpand: true,
+        decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0)
+            ),
+            color: Appearance.backgroundColor
+        ),
     );
   }
 
@@ -125,27 +136,18 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
     );
   }
 
-  Widget _buildBottomSheet(BuildContext context) {
-      return Container(
-        height: 692,
-        child: ProductSortingBottomSheetWidget()
-      );
-  }
-
   Widget _makeBottomSheet(
       BuildContext context,
       ScrollController scrollController,
       double bottomSheetOffset
       ) {
-    return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
-              topRight: Radius.circular(20.0)
-          ),
-        color: Appearance.backgroundColor
-      ),
-      child: ProductSortingBottomSheetWidget(),
-    );
+    return ProductSortingBottomSheetWidget(
+      sortingType: _type,
+      onSortingTypeSelected: (sortingType) {
+        setState(() {
+          _type = sortingType ?? ProductSorting.none;
+          _productList = productSortingManager.sort(_productList, _type);
+        });
+      });
   }
 }

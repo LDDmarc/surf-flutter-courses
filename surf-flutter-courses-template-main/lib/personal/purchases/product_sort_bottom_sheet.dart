@@ -1,42 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/appearance.dart';
-
-enum _Sorting { none, alphabetAsc, alphabetDesc, priceAsc, priceDesc, categoryAsc, categoryDesc }
-extension _SortingExtesion on _Sorting {
-  String get title {
-    switch (this) {
-      case _Sorting.none:
-        return 'Без сортировки';
-      case _Sorting.alphabetAsc:
-        return 'По имени  от А до Я';
-      case _Sorting.alphabetDesc:
-        return 'По имени  от Я до А';
-      case _Sorting.priceAsc:
-        return 'По возрастанию';
-      case _Sorting.priceDesc:
-        return 'По убыванию';
-      case _Sorting.categoryAsc:
-        return 'По типу от А до Я';
-      case _Sorting.categoryDesc:
-        return 'По типу от Я до А';
-      default:
-        return '';
-    }
-  }
-}
+import 'product_sorting_manager.dart';
 
 class ProductSortingBottomSheetWidget extends StatefulWidget {
+  final ProductSorting sortingType;
+  final void Function(ProductSorting?) onSortingTypeSelected;
 
-  const ProductSortingBottomSheetWidget({super.key});
+  const ProductSortingBottomSheetWidget({super.key, required this.sortingType, required this.onSortingTypeSelected });
 
   @override
   State<StatefulWidget> createState() {
-    return _ProductSortingBottomSheetState();
+    return _ProductSortingBottomSheetState(sortingType, onSortingTypeSelected: onSortingTypeSelected);
   }
 }
 
 class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWidget> {
-  _Sorting? _groupValue = _Sorting.none;
+  ProductSorting? _groupValue;
+  void Function(ProductSorting?) onSortingTypeSelected;
+
+  _ProductSortingBottomSheetState(this._groupValue, { required this.onSortingTypeSelected });
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +32,13 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
           flex: 100,
             child: ListView(
               children: [
-                _makeRadioRow(_Sorting.none),
+                _makeRadioRow(ProductSorting.none),
                 _makeDivider(),
-                _makeSortSection('По имени', [_Sorting.alphabetDesc, _Sorting.alphabetAsc]),
+                _makeSortSection('По имени', [ProductSorting.alphabetDesc, ProductSorting.alphabetAsc]),
                 _makeDivider(),
-                _makeSortSection('По цене', [_Sorting.priceAsc, _Sorting.priceDesc]),
+                _makeSortSection('По цене', [ProductSorting.priceAsc, ProductSorting.priceDesc]),
                 _makeDivider(),
-                _makeSortSection('По типу', [_Sorting.categoryAsc, _Sorting.categoryDesc]),
+                _makeSortSection('По типу', [ProductSorting.categoryAsc, ProductSorting.categoryDesc]),
               ],
             )
         ),
@@ -76,7 +58,7 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
     );
   }
 
-  Widget _makeSortSection(String category, List<_Sorting> values) {
+  Widget _makeSortSection(String category, List<ProductSorting> values) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,16 +78,16 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
     );
   }
   
-  Widget _makeRadioRow(_Sorting value) {
+  Widget _makeRadioRow(ProductSorting value) {
     return SizedBox(
       height: 56,
       child: Row(
         children: [
           const SizedBox(width: 5),
-          Radio<_Sorting>(
+          Radio<ProductSorting>(
             value: value,
             groupValue: _groupValue,
-            onChanged: (_Sorting? value) {
+            onChanged: (ProductSorting? value) {
               setState(() {
                 _groupValue = value;
               });
@@ -120,9 +102,7 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
 
   Widget _makeButton() {
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
-      primary: Colors.white,
-      minimumSize: Size(88, 48),
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      foregroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
       ),
@@ -132,7 +112,10 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
         children: [
           Expanded(child: TextButton(
               style: flatButtonStyle,
-              onPressed: (){},
+              onPressed: (){
+                  Navigator.pop(context);
+                  onSortingTypeSelected(_groupValue ?? ProductSorting.none);
+                },
               child: const Text('Готово')
           )
           )
