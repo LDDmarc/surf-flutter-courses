@@ -7,6 +7,7 @@ import '../../data/task.dart';
 import 'product_sort_bottom_sheet.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'product_sorting_manager.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProductListScreenWidget extends StatefulWidget {
   final Cheque cheque;
@@ -68,20 +69,12 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
       children: [
         const Text('Список покупок', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         const Spacer(),
-        Container(
-          height: 32,
-          width: 32,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            color: Appearance.separatorColor,
-          ),
-          child: IconButton(
-            padding: EdgeInsets.zero,
-            onPressed: (){ _showSortingModal(); },
-            icon: const Icon(Icons.sort),
-            iconSize: 24,
-            color: Appearance.iconColor,
-          ),
+        IconButton(
+          padding: EdgeInsets.zero,
+          onPressed: (){ _showSortingModal(); },
+          icon: SvgPicture.asset(_type == ProductSorting.none ? 'assets/products_sort.svg' : 'assets/products_sort_active.svg'),
+          iconSize: 24,
+          color: Appearance.iconColor,
         ),
       ],
     );

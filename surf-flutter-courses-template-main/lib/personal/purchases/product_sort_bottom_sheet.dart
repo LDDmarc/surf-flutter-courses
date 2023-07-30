@@ -103,6 +103,7 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
   Widget _makeButton() {
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
       foregroundColor: Colors.white,
+      minimumSize: const Size(100, 48),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
       ),
