@@ -8,4 +8,5 @@ class Appearance {
   static const backgroundColor = Color(0xFFFFFFFF);
   static const separatorColor = Color(0xFFF1F1F1);
   static const iconColor = Color(0xFF60607B);
+  static const subtitleColor = Color(0xFF252849);
 }

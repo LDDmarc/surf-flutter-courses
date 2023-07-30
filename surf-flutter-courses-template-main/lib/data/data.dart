@@ -28,7 +28,7 @@ class Cheque {
 final testData = <Cheque>[
   Cheque('Чек №1', DateTime.parse('2023-02-27 13:27:00'), dataForStudents1),
   Cheque('Чек №2', DateTime.parse('2023-03-01 19:04:00'), dataForStudents2),
-  Cheque('Чек №3', DateTime.parse('2023-03-10 18:52:00'), dataForStudents2),
+  Cheque('Чек №3 (больше скидок)', DateTime.parse('2023-03-10 18:52:00'), dataForStudents3),
 ];
 
 /// Список продуктов.
@@ -152,5 +152,51 @@ final dataForStudents2 = <ProductEntity>[
     amount: Quantity(1),
     imageUrl:
     'https://images.unsplash.com/photo-1550572017-edd951b55104?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aWJ1cHJvZmVufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=900&q=60',
+  ),
+];
+
+final dataForStudents3 = <ProductEntity>[
+  ProductEntity(
+    title: 'Телевизор',
+    price: 2100000,
+    category: Category.tech,
+    amount: Quantity(1),
+    imageUrl:
+    'https://images.unsplash.com/photo-1509281373149-e957c6296406?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1328&q=80',
+    sale: 34
+  ),
+  ProductEntity(
+    title: 'Миксер',
+    price: 250000,
+    category: Category.tech,
+    amount: Quantity(1),
+    imageUrl:
+    'https://images.unsplash.com/photo-1578643463396-0997cb5328c1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8bWl4ZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=900&q=60',
+    sale: 25,
+  ),
+  ProductEntity(
+    title: 'Крем для загара',
+    price: 90000,
+    category: Category.care,
+    amount: Quantity(1),
+    imageUrl:
+    'https://images.unsplash.com/photo-1521223344201-d169129f7b7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1335&q=80',
+  ),
+  ProductEntity(
+    title: 'Арбуз',
+    price: 1200,
+    category: Category.food,
+    imageUrl:
+    'https://images.unsplash.com/photo-1589984662646-e7b2e4962f18?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80',
+    amount: Grams(1000),
+    sale: 50,
+  ),
+  ProductEntity(
+    title: 'Дыня',
+    price: 1400,
+    category: Category.food,
+    amount: Grams(2000),
+    imageUrl:
+    'https://images.unsplash.com/photo-1598025362874-49480e049c76?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8bWVsb258ZW58MHx8MHx8&auto=format&fit=crop&w=900&q=60',
   ),
 ];

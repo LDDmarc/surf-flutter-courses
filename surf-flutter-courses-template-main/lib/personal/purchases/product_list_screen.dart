@@ -3,6 +3,8 @@ import 'package:surf_flutter_courses_template/appearance.dart';
 import 'package:surf_flutter_courses_template/custom_app_bar.dart';
 import 'package:surf_flutter_courses_template/data/data.dart';
 import 'package:surf_flutter_courses_template/personal/purchases/product_cell.dart';
+import 'product_sort_bottom_sheet.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
 
 class ProductListScreenWidget extends StatefulWidget {
   final Cheque cheque;
@@ -69,13 +71,25 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
           ),
           child: IconButton(
             padding: EdgeInsets.zero,
-            onPressed: (){},
+            onPressed: (){ _showSortingModal(); },
             icon: const Icon(Icons.sort),
             iconSize: 24,
             color: Appearance.iconColor,
           ),
         ),
       ],
+    );
+  }
+
+  void _showSortingModal() {
+    showFlexibleBottomSheet(
+        initHeight: 0.8,
+        maxHeight: 0.8,
+        minHeight: 0.5,
+        bottomSheetColor: Colors.transparent,
+        context: context,
+        builder: _makeBottomSheet,
+        isExpand: true
     );
   }
 
@@ -108,6 +122,30 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
         const Spacer(),
         Text(value, style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.bold)),
       ],
+    );
+  }
+
+  Widget _buildBottomSheet(BuildContext context) {
+      return Container(
+        height: 692,
+        child: ProductSortingBottomSheetWidget()
+      );
+  }
+
+  Widget _makeBottomSheet(
+      BuildContext context,
+      ScrollController scrollController,
+      double bottomSheetOffset
+      ) {
+    return Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0)
+          ),
+        color: Appearance.backgroundColor
+      ),
+      child: ProductSortingBottomSheetWidget(),
     );
   }
 }
