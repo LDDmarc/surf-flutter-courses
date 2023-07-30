@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/appearance.dart';
+import 'package:surf_flutter_courses_template/custom_app_bar.dart';
 import 'package:surf_flutter_courses_template/data/data.dart';
 import 'package:surf_flutter_courses_template/personal/purchases/product_cell.dart';
 
@@ -22,11 +23,10 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: BackButton(
-          color: Appearance.accentColor,
-        ),
+      appBar: CustomAppBar(
+        title: cheque.title,
+        subtitle: cheque.date.toString(),
+        isBackButtonHidden: false,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),

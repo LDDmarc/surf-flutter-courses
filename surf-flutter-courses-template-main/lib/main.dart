@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:surf_flutter_courses_template/appearance.dart';
 import 'empty_screen.dart';
-import 'personal/personal_screen.dart';
 import 'tab_bar_widget.dart';
 import 'personal/personal_tab_navigator.dart';
 
@@ -8,7 +8,6 @@ import 'personal/personal_tab_navigator.dart';
 enum TabItem {
   catalog, search, cart, personal
 }
-
 
 void main() {
   runApp(const MainApp());
@@ -36,11 +35,8 @@ class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: 'Sora'),
+      theme: ThemeData(fontFamily: 'Sora', scaffoldBackgroundColor: Appearance.backgroundColor),
       home: Scaffold(
-          // appBar: AppBar(
-          //   title: Text('data'),
-          // ),
           body: Stack(children: _tabs.map((e) => _buildOffstageNavigator(e)).toList()),
           bottomNavigationBar: TabBarWidget(
             selectedIndex: _tabs.indexOf(_currentTab),

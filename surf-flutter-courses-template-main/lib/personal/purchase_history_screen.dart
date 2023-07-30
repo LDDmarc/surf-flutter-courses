@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/data/data.dart';
 
+import '../custom_app_bar.dart';
+
 class PurchaseHistoryScreenWidget extends StatelessWidget {
   final void Function(Cheque) onChequeTap;
   final _cheques = testData;
@@ -10,7 +12,10 @@ class PurchaseHistoryScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: const CustomAppBar(
+        title: 'История покупок',
+        isBackButtonHidden: false,
+      ),
       body: ListView.builder(
           itemCount: _cheques.length,
           itemBuilder: (BuildContext context, int index) {

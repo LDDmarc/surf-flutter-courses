@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:surf_flutter_courses_template/custom_app_bar.dart';
 
 class PersonalScreenWidget extends StatelessWidget {
   final void Function() onPurchaseHistoryTap;
@@ -8,7 +9,10 @@ class PersonalScreenWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: const CustomAppBar(
+        title: 'Личное',
+        isBackButtonHidden: true,
+      ),
       body: ListView(
         children: [
           PersonalScreenCellWidget(
