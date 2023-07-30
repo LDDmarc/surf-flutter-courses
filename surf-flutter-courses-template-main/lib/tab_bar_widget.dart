@@ -25,15 +25,21 @@ class TabBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: _tabs.map((tab) =>
-          BottomNavigationBarItem(icon: tab.icon!, label: tab.text, activeIcon: tab.activeIcon!)).toList(),
-      currentIndex: selectedIndex,
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Appearance.accentColor,
-      selectedFontSize: 10,
-      unselectedFontSize: 10,
-      onTap: onItemTapped
+    return Container(
+      decoration: const BoxDecoration(
+          color: Appearance.backgroundColor,
+          border: Border(top: BorderSide(color: Appearance.separatorColor, width: 1.0))
+      ),
+      child: BottomNavigationBar(
+          items: _tabs.map((tab) => BottomNavigationBarItem(icon: tab.icon!, label: tab.text, activeIcon: tab.activeIcon!)).toList(),
+          currentIndex: selectedIndex,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Appearance.backgroundColor,
+          selectedItemColor: Appearance.accentColor,
+          selectedFontSize: 10,
+          unselectedFontSize: 10,
+          onTap: onItemTapped
+      ),
     );
   }
 }
