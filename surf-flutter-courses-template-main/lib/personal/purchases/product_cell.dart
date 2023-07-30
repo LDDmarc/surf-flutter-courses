@@ -56,7 +56,7 @@ class ProductCellWidget extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
           child: Row(
           children: [
-            Text(product.amount.toString()),
+            Text(product.totalAmountString),
             const Spacer(),
             _makeProductPrice(product)
           ],
@@ -70,13 +70,13 @@ class ProductCellWidget extends StatelessWidget {
     if (product.sale > 0) {
       return Row(
         children: [
-          Text(product.price.toString(), style: const TextStyle(decoration: TextDecoration.lineThrough, color: Appearance.secondaryForegroundColor)),
+          Text(product.startPriceString, style: const TextStyle(decoration: TextDecoration.lineThrough, color: Appearance.secondaryForegroundColor)),
           const SizedBox(width: 18),
-          Text(product.price.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Appearance.destructiveColor)),
+          Text(product.totalPriceString, style: const TextStyle(fontWeight: FontWeight.bold, color: Appearance.destructiveColor)),
         ],
       );
     } else {
-      return Text(product.price.toString(), style: const TextStyle(fontWeight: FontWeight.bold));
+      return Text(product.totalPriceString, style: const TextStyle(fontWeight: FontWeight.bold));
     }
   }
 

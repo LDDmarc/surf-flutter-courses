@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.7
+  money_formatter: ^0.0.4
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:

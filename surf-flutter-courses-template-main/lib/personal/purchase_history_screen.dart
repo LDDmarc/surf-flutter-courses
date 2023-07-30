@@ -22,7 +22,7 @@ class PurchaseHistoryScreenWidget extends StatelessWidget {
             final cheque = _cheques[index];
               return PurchaseHistoryScreenCellWidget(
                 title: cheque.title,
-                subtitle: cheque.date.toString(),
+                subtitle: cheque.dateString,
                 onTap: (){ onChequeTap(cheque); }
               );
           }

@@ -1,3 +1,4 @@
+import 'package:money_formatter/money_formatter.dart';
 
 /// Модель продукта.
 ///
@@ -22,6 +23,8 @@ class ProductEntity {
   ///       int rubles;
   ///       int pennies
   ///    }
+  ///    или
+  ///    Присылать все значение уже отформатированными строками ❕
   final int price;
 
   /// Категория товара.
@@ -38,13 +41,20 @@ class ProductEntity {
   /// Скидка на товар.
   ///
   /// Требуется высчитать самостоятельно итоговую цену товара.
+  /// Это какой-то беспредел 🤨
   final double sale;
 
-  /// Итоговая цена
-  int get totalPrice  {
-    final intSale = sale~/100;
-    return price * amount.value * intSale;
+  /// Итоговая цена в копейках
+  double get totalPrice {
+    final discount = 1 - sale/100;
+    return price * discount;
   }
+
+  /// UI presentation
+  String get startPriceString => MoneyFormatter(amount: price/100).output.nonSymbol;
+  String get totalPriceString => MoneyFormatter(amount: totalPrice/100).output.nonSymbol;
+
+  String get totalAmountString => amount.toString();
 
   ProductEntity({
     required this.title,
@@ -68,7 +78,7 @@ class Grams implements Amount {
 
   @override
   String toString() {
-    return '$value кг';
+    return '${value/1000} кг';
   }
 
   Grams(this.value);

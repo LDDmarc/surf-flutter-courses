@@ -25,7 +25,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           return Column(
             children: [
               Text(title, style: const TextStyle(color: Appearance.primaryForegroundColor, fontWeight: FontWeight.bold)),
-              Text(subtitle!, style: const TextStyle(color: Appearance.secondaryForegroundColor, fontSize: 10))
+              Text(subtitle!, style: const TextStyle(color: Appearance.iconColor, fontSize: 10))
             ],
           );
         } else {

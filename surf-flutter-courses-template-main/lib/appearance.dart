@@ -7,4 +7,5 @@ class Appearance {
   static const destructiveColor = Color(0xFFFF0000);
   static const backgroundColor = Color(0xFFFFFFFF);
   static const separatorColor = Color(0xFFF1F1F1);
+  static const iconColor = Color(0xFF60607B);
 }

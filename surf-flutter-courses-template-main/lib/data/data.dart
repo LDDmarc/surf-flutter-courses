@@ -1,9 +1,26 @@
 import 'task.dart';
+import 'package:money_formatter/money_formatter.dart';
+import 'package:intl/intl.dart';
 
 class Cheque {
   final String title;
   final DateTime date;
   final List<ProductEntity> productList;
+
+  double get _totalPrice => productList.map((e) => e.totalPrice).reduce((a, b) => a + b);
+  double get _startPrice => productList.map((e) => e.price).reduce((a, b) => a + b).toDouble();
+  double get _diff => _startPrice - _totalPrice;
+  double get _totalDiscount => _diff / _startPrice * 100;
+
+  final DateFormat _dateFormat = DateFormat("dd.MM.yy в HH:mm");
+
+  /// UI presentation
+  String get startPriceString => '${MoneyFormatter(amount: _startPrice/100).output.nonSymbol} руб';
+  String get totalPriceString => '${MoneyFormatter(amount: _totalPrice/100).output.nonSymbol} руб';
+  String get totalDiscountString => 'Скидка ${_totalDiscount.roundToDouble().toString()}%'; // I have no idea how many digits should I keep
+  String get totalDiffString => '- ${MoneyFormatter(amount: _diff/100).output.nonSymbol} руб';
+  String get totalCountString => '${productList.length} товаров';  // plural nouns are too much for me
+  String get dateString => _dateFormat.format(date);
 
   Cheque(this.title, this.date, this.productList);
 }
