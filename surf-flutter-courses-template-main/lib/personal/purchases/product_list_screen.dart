@@ -38,35 +38,45 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
         subtitle: cheque.dateString,
         isBackButtonHidden: false,
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-        child: Column(
-          children: [
-            const SizedBox(height: 24), // todo: correct size
-            _makeHeader(),
-            const SizedBox(height: 16),
-            ((){
-              switch (_type) {
-                case ProductSorting.categoryDesc:
-                  return _makeGroupedList(_productList);
-                case ProductSorting.categoryAsc:
-                  return _makeGroupedList(_productList);
-                default:
-                  return _makeSimpleList(_productList);
-              }
-            }()),
-            const Divider(
-              color: Appearance.separatorColor,
-              thickness: 1,
-            ),
-            const SizedBox(height: 8),
-            _makeFooter(cheque),
-            const SizedBox(height: 24),
-          ]
-        )
-      )
+      body: ((){
+        if (_productList.isNotEmpty) {
+          return _makeContent();
+        } else {
+          return const Center(child: Text('Ой, это пустой чек 🧐'));
+        }
+      }())
     );
   }
+
+  Widget _makeContent() {
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+        child: Column(
+            children: [
+              const SizedBox(height: 24), // todo: correct size
+              _makeHeader(),
+              const SizedBox(height: 16),
+              ((){
+                switch (_type) {
+                  case ProductSorting.categoryDesc:
+                    return _makeGroupedList(_productList);
+                  case ProductSorting.categoryAsc:
+                    return _makeGroupedList(_productList);
+                  default:
+                    return _makeSimpleList(_productList);
+                }
+              }()),
+              const Divider(
+                color: Appearance.separatorColor,
+                thickness: 1,
+              ),
+              const SizedBox(height: 8),
+              _makeFooter(cheque),
+              const SizedBox(height: 24),
+            ]
+        )
+    );
+}
 
   Widget _makeHeader() {
     return Row(
