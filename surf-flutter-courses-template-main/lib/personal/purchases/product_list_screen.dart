@@ -16,9 +16,7 @@ class ProductListScreenWidget extends StatefulWidget {
   const ProductListScreenWidget({super.key, required this.cheque});
 
   @override
-  State<StatefulWidget> createState() {
-    return _ProductListScreenState(cheque);
-  }
+  State<StatefulWidget> createState() =>_ProductListScreenState(cheque);
 }
 
 class _ProductListScreenState extends State<ProductListScreenWidget> {
@@ -27,8 +25,11 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
 
   List<ProductEntity> _productList;
   ProductSorting _type = ProductSorting.none;
+  bool _isLoading;
 
-  _ProductListScreenState(this.cheque) : _productList = cheque.productList;
+  _ProductListScreenState(this.cheque) :
+        _productList = cheque.productList,
+        _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +40,14 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
         isBackButtonHidden: false,
       ),
       body: ((){
-        if (_productList.isNotEmpty) {
-          return _makeContent();
+        if (_isLoading) {
+          return const Center(child: CircularProgressIndicator(color: Appearance.accentColor));
         } else {
-          return const Center(child: Text('Ой, это пустой чек 🧐'));
+          if (_productList.isNotEmpty) {
+            return _makeContent();
+          } else {
+            return const Center(child: Text('Здесь пока ничего нет'));
+          }
         }
       }())
     );
@@ -189,10 +194,21 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
     return ProductSortingBottomSheetWidget(
       sortingType: _type,
       onSortingTypeSelected: (sortingType) {
+        _imitateLoading();
         setState(() {
           _type = sortingType ?? ProductSorting.none;
           _productList = productSortingManager.sort(_productList, _type);
         });
       });
+  }
+
+  void _imitateLoading() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _isLoading = false;
+    });
   }
 }
