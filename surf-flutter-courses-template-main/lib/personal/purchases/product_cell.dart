@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:surf_flutter_courses_template/common/appearance.dart';
 import 'package:surf_flutter_courses_template/data/task.dart';
 
@@ -37,11 +38,16 @@ class ProductCellWidget extends StatelessWidget {
         child: Image.network(
                 url,
                 fit: BoxFit.cover,
-        // loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-        //   // todo: mock image
-        //   return Center(child: child);
-        // },,
-           ),
+        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Container(
+            width: 24,
+            height: 24,
+            alignment: Alignment.center,
+            child: SvgPicture.asset('assets/product_empty_icon.svg', fit: BoxFit.cover)
+          );
+        },
+        ),
       )
     );
   }

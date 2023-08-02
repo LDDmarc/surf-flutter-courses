@@ -58,7 +58,7 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
         child: Column(
             children: [
-              const SizedBox(height: 24), // todo: correct size
+              const SizedBox(height: 24),
               _makeHeader(),
               const SizedBox(height: 16),
               ((){
