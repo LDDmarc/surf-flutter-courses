@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_courses_template/appearance.dart';
-import 'package:surf_flutter_courses_template/custom_app_bar.dart';
+import 'package:surf_flutter_courses_template/common/appearance.dart';
+import 'package:surf_flutter_courses_template/common/custom_app_bar.dart';
 import 'package:surf_flutter_courses_template/data/data.dart';
 import 'package:surf_flutter_courses_template/personal/purchases/product_cell.dart';
 import '../../data/task.dart';
@@ -8,6 +8,7 @@ import 'product_sort_bottom_sheet.dart';
 import 'package:bottom_sheet/bottom_sheet.dart';
 import 'product_sorting_manager.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:grouped_list/grouped_list.dart';
 
 class ProductListScreenWidget extends StatefulWidget {
   final Cheque cheque;
@@ -27,7 +28,7 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
   List<ProductEntity> _productList;
   ProductSorting _type = ProductSorting.none;
 
-  _ProductListScreenState(this.cheque) :  _productList = cheque.productList;
+  _ProductListScreenState(this.cheque) : _productList = cheque.productList;
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +45,16 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
             const SizedBox(height: 24), // todo: correct size
             _makeHeader(),
             const SizedBox(height: 16),
-            Expanded(child: ListView.builder(
-                  itemCount: _productList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ProductCellWidget(product: _productList[index]);
-                  }
-              ),
-            ),
+            ((){
+              switch (_type) {
+                case ProductSorting.categoryDesc:
+                  return _makeGroupedList(_productList);
+                case ProductSorting.categoryAsc:
+                  return _makeGroupedList(_productList);
+                default:
+                  return _makeSimpleList(_productList);
+              }
+            }()),
             const Divider(
               color: Appearance.separatorColor,
               thickness: 1,
@@ -80,6 +84,29 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
     );
   }
 
+  Widget _makeSimpleList(List<ProductEntity> products) {
+    return Expanded(
+      child: ListView.builder(
+          itemCount: products.length,
+          itemBuilder: (BuildContext context, int index) {
+            return ProductCellWidget(product: products[index]);
+          }
+      ),
+    );
+  }
+
+  Widget _makeGroupedList(List<ProductEntity> products) {
+    return Expanded(
+      child: GroupedListView<ProductEntity, Category>(
+        elements: products,
+        groupBy: (element) => element.category,
+        groupSeparatorBuilder: (Category category) => _makeSectionHeader(category),
+        itemBuilder: (context, ProductEntity element) => ProductCellWidget(product: element),
+        groupComparator: (item1, item2) => productSortingManager.groupComparator(_type, item1, item2)
+      ),
+    );
+  }
+
   void _showSortingModal() {
     showFlexibleBottomSheet(
         initHeight: 0.9,
@@ -95,6 +122,21 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
             color: Appearance.backgroundColor
         ),
     );
+  }
+
+  Widget _makeSectionHeader(Category category) {
+      if (productSortingManager.getTopCategory(_type, _productList) == category) {
+        return Text(category.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16));
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Divider(thickness: 1, color: Appearance.separatorColor),
+            const SizedBox(height: 20),
+            Text(category.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16))
+          ],
+        );
+      }
   }
 
   Widget _makeFooter(Cheque cheque) {

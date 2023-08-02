@@ -14,6 +14,7 @@ dependencies:
   money_formatter: ^0.0.4
   intl: ^0.18.1
   bottom_sheet: ^3.1.2
+  grouped_list: ^5.1.2
 
 dev_dependencies:
   flutter_test:

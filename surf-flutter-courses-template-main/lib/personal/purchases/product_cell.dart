@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_courses_template/appearance.dart';
+import 'package:surf_flutter_courses_template/common/appearance.dart';
 import 'package:surf_flutter_courses_template/data/task.dart';
 
 class ProductCellWidget extends StatelessWidget {

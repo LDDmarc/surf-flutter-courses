@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'appearance.dart';
+import 'common/appearance.dart';
 
 class _Tab {
   final String? text;

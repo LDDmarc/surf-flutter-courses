@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_courses_template/appearance.dart';
+import 'package:surf_flutter_courses_template/common/appearance.dart';
 import 'product_sorting_manager.dart';
 
 class ProductSortingBottomSheetWidget extends StatefulWidget {
@@ -34,7 +34,7 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
               children: [
                 _makeRadioRow(ProductSorting.none),
                 _makeDivider(),
-                _makeSortSection('По имени', [ProductSorting.alphabetDesc, ProductSorting.alphabetAsc]),
+                _makeSortSection('По имени', [ProductSorting.alphabetAsc, ProductSorting.alphabetDesc]),
                 _makeDivider(),
                 _makeSortSection('По цене', [ProductSorting.priceAsc, ProductSorting.priceDesc]),
                 _makeDivider(),
@@ -94,7 +94,7 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
             },
             fillColor: MaterialStateColor.resolveWith((states) => Appearance.accentColor),
           ),
-          Text(value.title),
+          Text(value.title, style: const TextStyle(fontSize: 16)),
         ],
       )
     );
@@ -117,7 +117,7 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
                   Navigator.pop(context);
                   onSortingTypeSelected(_groupValue ?? ProductSorting.none);
                 },
-              child: const Text('Готово')
+              child: const Text('Готово', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))
           )
           )
         ]

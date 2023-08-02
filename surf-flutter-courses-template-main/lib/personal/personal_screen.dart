@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_courses_template/custom_app_bar.dart';
+import 'package:surf_flutter_courses_template/common/custom_app_bar.dart';
 
 class PersonalScreenWidget extends StatelessWidget {
   final void Function() onPurchaseHistoryTap;

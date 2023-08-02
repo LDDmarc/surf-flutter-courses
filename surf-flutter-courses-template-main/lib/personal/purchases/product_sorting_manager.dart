@@ -41,17 +41,17 @@ class ProductSortingManager {
       case ProductSorting.priceDesc:
         return _priceSort(false, initialList);
       case ProductSorting.categoryAsc:
-        return _categorySort(true, initialList);
+        return _priceSort(true, initialList);
       case ProductSorting.categoryDesc:
-        return _categorySort(false, initialList);
-      default:
+        return _priceSort(false, initialList);
+      default: /// including category sorting
         return initialList;
     }
   }
 
   List<ProductEntity> _priceSort(bool isAsc, List<ProductEntity> initialList) {
     var result = initialList;
-    result.sort( (a, b) => isAsc ? a.price.compareTo(b.price) : b.price.compareTo(a.price));
+    result.sort( (a, b) => isAsc ? a.totalPrice.compareTo(b.totalPrice) : b.totalPrice.compareTo(a.totalPrice));
     return result;
   }
 
@@ -61,10 +61,21 @@ class ProductSortingManager {
     return result;
   }
 
-  List<ProductEntity> _categorySort(bool isAsc, List<ProductEntity> initialList) {
-    var result = initialList;
-    // result.sort( (a, b) => isAsc ? a.category..compareTo(b.category) : b.category.compareTo(a.category));
-    return result;
+  int groupComparator(ProductSorting type, Category value1, Category value2) {
+    switch (type) {
+      case ProductSorting.categoryAsc:
+        return value1.name.compareTo(value2.name);
+      case ProductSorting.categoryDesc:
+        return value2.name.compareTo(value1.name);
+      default: /// including category sorting
+        return 0;
+    }
+  }
+
+  Category getTopCategory(ProductSorting type, List<ProductEntity> initialList) {
+    var activeCategories = initialList.map((e) => e.category).toSet().toList();
+    activeCategories.sort((a, b) => groupComparator(type, a, b));
+    return activeCategories.first;
   }
 
 }

@@ -30,6 +30,7 @@ final testData = <Cheque>[
   Cheque('Чек №2', DateTime.parse('2023-03-01 19:04:00'), dataForStudents2),
   Cheque('Чек №3 (больше скидок)', DateTime.parse('2023-03-10 18:52:00'), dataForStudents3),
   Cheque('Чек №4 (пустой)', DateTime.parse('2023-04-10 08:14:00'), []),
+  Cheque('Чек №5 (loading ?)', DateTime.parse('2023-04-10 08:14:00'), []),
 ];
 
 /// Список продуктов.

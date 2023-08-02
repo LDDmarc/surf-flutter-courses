@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_courses_template/appearance.dart';
+import 'package:surf_flutter_courses_template/common/appearance.dart';
 import 'empty_state/empty_screen.dart';
 import 'tab_bar_widget.dart';
 import 'personal/personal_tab_navigator.dart';

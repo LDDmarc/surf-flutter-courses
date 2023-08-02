@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/data/data.dart';
 
-import '../custom_app_bar.dart';
+import '../common/custom_app_bar.dart';
 
 class PurchaseHistoryScreenWidget extends StatelessWidget {
   final void Function(Cheque) onChequeTap;
