@@ -15,7 +15,7 @@ class ColorDetailPresenter {
     final color = _generateColor(_colorModel.value!);
     return ColorDetailPresentation(
         title: _colorModel.name,
-        hexSubtitle: _colorModel.value!,
+        hexSubtitle: _colorModel.value!.substring(1),
         color: color,
         redValue: '${color.red}',
         greenValue: '${color.green}',
