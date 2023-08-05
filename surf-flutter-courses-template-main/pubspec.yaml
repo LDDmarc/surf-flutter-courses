@@ -24,3 +24,5 @@ flutter:
         - asset: fonts/Ubuntu-Regular.ttf
         - asset: fonts/Ubuntu-Bold.ttf
         - asset: fonts/Ubuntu-Light.ttf
+  assets:
+    - assets/colors_list.json
