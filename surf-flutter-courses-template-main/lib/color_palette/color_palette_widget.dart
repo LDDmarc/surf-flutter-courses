@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:surf_flutter_courses_template/color_palette/color_palette_cell_widget.dart';
 import 'package:surf_flutter_courses_template/color_palette/color_palette_presenter.dart';
 import 'package:surf_flutter_courses_template/color_palette/support/color_cell_presentation.dart';
 import 'support/color_palette_view.dart';
@@ -52,7 +53,7 @@ class _ColorPaletteWidgetState extends State<ColorPaletteWidget> implements Colo
                 childAspectRatio: 5/7,
                 mainAxisSpacing: 40,
                 crossAxisSpacing: 22,
-                children: snapshot.data!.map((e) => _makeCell(e)).toList()
+                children: snapshot.data!.map((e) => _makeTappableCell(e)).toList()
             );
           } else {
             return const Center(child: CircularProgressIndicator());
@@ -70,28 +71,8 @@ class _ColorPaletteWidgetState extends State<ColorPaletteWidget> implements Colo
     );
   }
 
-  Widget _makeCell(ColorCellPresentation cellPresentation) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(child: _makeColoredBox(cellPresentation.color)),
-        const SizedBox(height: 8),
-        Text(cellPresentation.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-        Text(cellPresentation.subtitle)
-      ],
-    );
-  }
-  
-  Widget _makeColoredBox(Color color) {
-    return AspectRatio(
-        aspectRatio: 1,
-        child: Container(
-            decoration: BoxDecoration(
-                color: color,
-                borderRadius: const BorderRadius.all(Radius.circular(16))
-          ),
-        ),
-    );
+  Widget _makeTappableCell(ColorCellPresentation cellPresentation) {
+    return ColorPaletteCellWidget(cellPresentation: cellPresentation);
   }
 
 }
