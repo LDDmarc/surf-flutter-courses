@@ -56,7 +56,7 @@ class _ColorPaletteWidgetState extends State<ColorPaletteWidget> implements Colo
                 childAspectRatio: 5/7,
                 mainAxisSpacing: 40,
                 crossAxisSpacing: 22,
-                children: snapshot.data!.map((e) => _makeCell(e)).toList()
+                children: snapshot.data!.asMap().map((index, element) =>  MapEntry(index, _makeCell(element, index))).values.toList()
             );
           } else {
             return const Center(child: CircularProgressIndicator());
@@ -74,13 +74,11 @@ class _ColorPaletteWidgetState extends State<ColorPaletteWidget> implements Colo
     );
   }
 
-  Widget _makeCell(ColorCellPresentation cellPresentation) {
+  Widget _makeCell(ColorCellPresentation cellPresentation, int index) {
     return ColorPaletteCellWidget(
         cellPresentation: cellPresentation,
-        onTap: () {
-
-        },
-        onLongTap: () { presenter.copyToClipBoard(cellPresentation.subtitle); },
+        onTap: () { presenter.onTapItemAt(index: index); },
+        onLongTap: () { presenter.onLongTapItemAt(index: index); },
     );
   }
 

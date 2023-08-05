@@ -7,23 +7,44 @@ import 'package:flutter/services.dart';
 
 class ColorPalettePresenter {
   final _colorPalette = ColorPaletteModel();
+  List<ColorModel>? _colorModels;
   late final ColorPaletteView? _view;
+
+  final void Function(ColorModel) onShowColor;
+
+  ColorPalettePresenter({required this.onShowColor});
 
   void setView(ColorPaletteView view) {
     _view = view;
-    update();
+    _update();
   }
 
-  void update() {
+  Future<List<ColorModel>> _loadColors() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return await _colorPalette.getColors();
+  }
+
+  void onTapItemAt({required int index }) {
+    final model = _colorModels?[index];
+    if (model != null) {
+      onShowColor(model);
+    }
+  }
+
+  void onLongTapItemAt({required int index }) async {
+    final text = _colorModels?[index].value;
+    if ( text != null) {
+      await Clipboard.setData(ClipboardData(text: text));
+    }
+  }
+
+  void _update() {
     _view?.updateData(_getColors());
-  }
-
-  void copyToClipBoard(String text) async {
-    await Clipboard.setData(ClipboardData(text: text));
   }
 
   Future<ColorList> _getColors() async {
     final colors = await _loadColors();
+    _colorModels = colors;
 
     return colors
         .where((element) => element.value != null)
@@ -33,11 +54,6 @@ class ColorPalettePresenter {
                       _generateColor(e.value!)
                     )
     ).toList();
-  }
-
-  Future<List<ColorModel>> _loadColors() async {
-    await Future.delayed(const Duration(seconds: 1));
-    return await _colorPalette.getColors();
   }
 
   Color _generateColor(String code) {
