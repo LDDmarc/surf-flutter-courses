@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/color_palette/color_palette_presenter.dart';
+import 'package:surf_flutter_courses_template/color_palette/support/color_cell_presentation.dart';
 import 'support/color_palette_view.dart';
 
 class ColorPaletteWidget extends StatefulWidget {
@@ -22,20 +23,15 @@ class _ColorPaletteWidgetState extends State<ColorPaletteWidget> implements Colo
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ColorList>(
-        future: _loadColors,
-        builder: (BuildContext context, AsyncSnapshot<ColorList> snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-                itemCount: snapshot.data?.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(title: Text(snapshot.data![index].title));
-                }
-                );
-          } else {
-            return Center(child: Text('loading'));
-          }
-        }
+    return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+        child: Column(
+            children: [
+              _makeHeader(),
+              const SizedBox(height: 42),
+              Expanded(child: _makeGrid())
+            ],
+        )
     );
   }
 
@@ -46,7 +42,56 @@ class _ColorPaletteWidgetState extends State<ColorPaletteWidget> implements Colo
     });
   }
 
-  // Widget _makeCell() {
-  //
-  // }
+  Widget _makeGrid() {
+    return FutureBuilder<ColorList>(
+        future: _loadColors,
+        builder: (BuildContext context, AsyncSnapshot<ColorList> snapshot) {
+          if (snapshot.hasData) {
+            return GridView.count(
+                crossAxisCount: 3,
+                childAspectRatio: 5/7,
+                mainAxisSpacing: 40,
+                crossAxisSpacing: 22,
+                children: snapshot.data!.map((e) => _makeCell(e)).toList()
+            );
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        }
+    );
+  }
+
+  Widget _makeHeader() {
+    return const Text(
+    'Эксклюзивная палитра «Colored Box»',
+    style: TextStyle(
+      fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black
+    )
+    );
+  }
+
+  Widget _makeCell(ColorCellPresentation cellPresentation) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(child: _makeColoredBox(cellPresentation.color)),
+        const SizedBox(height: 8),
+        Text(cellPresentation.title, maxLines: 1, overflow: TextOverflow.ellipsis),
+        Text(cellPresentation.subtitle)
+      ],
+    );
+  }
+  
+  Widget _makeColoredBox(Color color) {
+    return AspectRatio(
+        aspectRatio: 1,
+        child: Container(
+            decoration: BoxDecoration(
+                color: color,
+                borderRadius: const BorderRadius.all(Radius.circular(16))
+          ),
+        ),
+    );
+  }
+
 }

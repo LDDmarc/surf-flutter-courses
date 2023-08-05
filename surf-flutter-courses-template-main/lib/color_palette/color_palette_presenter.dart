@@ -25,7 +25,7 @@ class ColorPalettePresenter {
         .map((e) => ColorCellPresentation(
                       e.name,
                       e.value!,
-                      Color(0xFFFF0000)
+                      _generateColor(e.value!)
                     )
     ).toList();
   }
@@ -33,6 +33,10 @@ class ColorPalettePresenter {
   Future<List<ColorModel>> _loadColors() async {
     await Future.delayed(const Duration(seconds: 1));
     return await _colorPalette.getColors();
+  }
+
+  Color _generateColor(String code) {
+    return Color(int.parse(code.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
 }
