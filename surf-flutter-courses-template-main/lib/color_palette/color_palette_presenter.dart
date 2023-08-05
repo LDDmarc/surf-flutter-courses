@@ -3,6 +3,7 @@ import 'color_palette_model.dart';
 import 'package:surf_flutter_courses_template/color_model.dart';
 import 'support/color_palette_view.dart';
 import 'support/color_cell_presentation.dart';
+import 'package:flutter/services.dart';
 
 class ColorPalettePresenter {
   final _colorPalette = ColorPaletteModel();
@@ -15,6 +16,10 @@ class ColorPalettePresenter {
 
   void update() {
     _view?.updateData(_getColors());
+  }
+
+  void copyToClipBoard(String text) async {
+    await Clipboard.setData(ClipboardData(text: text));
   }
 
   Future<ColorList> _getColors() async {

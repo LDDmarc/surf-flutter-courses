@@ -10,16 +10,19 @@ class ColorPaletteWidget extends StatefulWidget {
   const ColorPaletteWidget({super.key, required this.presenter});
 
   @override
-  State<ColorPaletteWidget> createState() => _ColorPaletteWidgetState();
+  State<ColorPaletteWidget> createState() => _ColorPaletteWidgetState(presenter: presenter);
 }
 
 class _ColorPaletteWidgetState extends State<ColorPaletteWidget> implements ColorPaletteView {
+  final ColorPalettePresenter presenter;
   Future<ColorList>? _loadColors;
+
+  _ColorPaletteWidgetState({required this.presenter});
 
   @override
   void initState() {
     super.initState();
-    widget.presenter.setView(this);
+    presenter.setView(this);
   }
 
   @override
@@ -53,7 +56,7 @@ class _ColorPaletteWidgetState extends State<ColorPaletteWidget> implements Colo
                 childAspectRatio: 5/7,
                 mainAxisSpacing: 40,
                 crossAxisSpacing: 22,
-                children: snapshot.data!.map((e) => _makeTappableCell(e)).toList()
+                children: snapshot.data!.map((e) => _makeCell(e)).toList()
             );
           } else {
             return const Center(child: CircularProgressIndicator());
@@ -71,8 +74,14 @@ class _ColorPaletteWidgetState extends State<ColorPaletteWidget> implements Colo
     );
   }
 
-  Widget _makeTappableCell(ColorCellPresentation cellPresentation) {
-    return ColorPaletteCellWidget(cellPresentation: cellPresentation);
+  Widget _makeCell(ColorCellPresentation cellPresentation) {
+    return ColorPaletteCellWidget(
+        cellPresentation: cellPresentation,
+        onTap: () {
+
+        },
+        onLongTap: () { presenter.copyToClipBoard(cellPresentation.subtitle); },
+    );
   }
 
 }

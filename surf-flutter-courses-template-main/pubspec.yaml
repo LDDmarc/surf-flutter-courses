@@ -15,6 +15,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+  flutter_svg: ^2.0.7
 
 flutter:
   uses-material-design: true
@@ -25,4 +26,4 @@ flutter:
         - asset: fonts/Ubuntu-Bold.ttf
         - asset: fonts/Ubuntu-Light.ttf
   assets:
-    - assets/colors_list.json
+    - assets/
