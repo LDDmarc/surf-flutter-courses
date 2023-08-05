@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'color_model.dart';
+import '../color_model.dart';
 
 class ColorPaletteModel {
 
