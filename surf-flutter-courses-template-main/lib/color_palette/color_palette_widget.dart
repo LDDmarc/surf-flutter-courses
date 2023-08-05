@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:surf_flutter_courses_template/color_palette/color_palette_cell_widget.dart';
+import 'package:surf_flutter_courses_template/color_palette/support/color_palette_cell_widget.dart';
 import 'package:surf_flutter_courses_template/color_palette/color_palette_presenter.dart';
 import 'package:surf_flutter_courses_template/color_palette/support/color_cell_presentation.dart';
 import 'support/color_palette_view.dart';
