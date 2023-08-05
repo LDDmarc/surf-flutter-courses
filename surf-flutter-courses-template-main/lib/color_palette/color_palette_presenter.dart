@@ -44,10 +44,10 @@ class ColorPalettePresenter {
 
   Future<ColorList> _getColors() async {
     final colors = await _loadColors();
-    _colorModels = colors;
+    final sortedColors = colors.where((element) => element.value != null).toList();
+    _colorModels = sortedColors;
 
-    return colors
-        .where((element) => element.value != null)
+    return sortedColors
         .map((e) => ColorCellPresentation(
                       e.name,
                       e.value!,
