@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:surf_flutter_courses_template/color_detail/color_detail_model.dart';
 import 'package:surf_flutter_courses_template/color_model.dart';
 import 'support/color_detail_presentation.dart';
@@ -10,6 +11,10 @@ class ColorDetailPresenter {
   ColorDetailPresentation get detailPresentation => _makePresentation();
 
   ColorDetailPresenter(this._detailModel);
+
+  void copyToClipboard(String value) async {
+    await Clipboard.setData(ClipboardData(text: value));
+  }
 
   ColorDetailPresentation _makePresentation() {
     final color = _generateColor(_colorModel.value!);

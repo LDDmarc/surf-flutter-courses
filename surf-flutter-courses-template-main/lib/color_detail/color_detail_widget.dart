@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:surf_flutter_courses_template/color_detail/support/color_detail_shadowed_box.dart';
 import 'support/color_detail_presentation.dart';
 import 'color_detail_presenter.dart';
 
@@ -8,13 +9,14 @@ class ColorDetailWidget extends StatefulWidget {
   const ColorDetailWidget({super.key, required this.presenter});
 
   @override
-  State<ColorDetailWidget> createState() => _ColorDetailWidgetState(presenter.detailPresentation);
+  State<ColorDetailWidget> createState() => _ColorDetailWidgetState(presenter);
 }
 
 class _ColorDetailWidgetState extends State<ColorDetailWidget> {
+  final ColorDetailPresenter presenter;
   final ColorDetailPresentation detailPresentation;
 
-  _ColorDetailWidgetState(this.detailPresentation);
+  _ColorDetailWidgetState(this.presenter) : detailPresentation = presenter.detailPresentation;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +53,11 @@ class _ColorDetailWidgetState extends State<ColorDetailWidget> {
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: _makeShadowedRow('Hex', detailPresentation.hexSubtitle),
+                  child: ColorDetailShadowedBox(
+                      title: 'Hex',
+                      value: detailPresentation.hexSubtitle,
+                      onTap: (){ presenter.copyToClipboard(detailPresentation.hexSubtitle); }
+                  )
                 ),
                 const SizedBox(height: 16),
                 Padding(
@@ -66,39 +72,32 @@ class _ColorDetailWidgetState extends State<ColorDetailWidget> {
     );
   }
 
-  Widget _makeShadowedRow(String title, String value) {
-    return Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: const BorderRadius.all(Radius.circular(16)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0xFF252838).withOpacity(0.08),
-              blurRadius: 6,
-              offset: const Offset(0, 12), // changes position of shadow
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(children: [
-            Text(title, style: const TextStyle(fontSize: 16)),
-            const Spacer(),
-            Text(value, style: const TextStyle(fontSize: 16))
-          ],
-          ),
-        )
-    );
-  }
-
   Widget _makeRGBRow() {
     return Row(
       children: [
-        Expanded(child: _makeShadowedRow('Red', detailPresentation.redValue)),
+        Expanded(
+            child: ColorDetailShadowedBox(
+                title: 'Red',
+                value: detailPresentation.redValue,
+                onTap: (){ presenter.copyToClipboard(detailPresentation.redValue); }
+          )
+        ),
         const SizedBox(width: 17),
-        Expanded(child: _makeShadowedRow('Green', detailPresentation.greenValue)),
+        Expanded(
+            child: ColorDetailShadowedBox(
+                title: 'Green',
+                value: detailPresentation.greenValue,
+                onTap: (){ presenter.copyToClipboard(detailPresentation.greenValue); }
+            )
+        ),
         const SizedBox(width: 17),
-        Expanded(child: _makeShadowedRow('Blue', detailPresentation.blueValue)),
+        Expanded(
+            child: ColorDetailShadowedBox(
+                title: 'Blue',
+                value: detailPresentation.redValue,
+                onTap: (){ presenter.copyToClipboard(detailPresentation.blueValue); }
+            )
+        ),
       ],
     );
   }

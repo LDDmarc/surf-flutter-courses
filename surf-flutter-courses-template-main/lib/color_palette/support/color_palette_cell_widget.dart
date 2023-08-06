@@ -119,7 +119,7 @@ class _ColorPaletteCellWidgetState extends State<ColorPaletteCellWidget> with Si
     setState(() {
       _isNeedToShowCopySymbol = true;
     });
-    Future.delayed(const Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 1), () {
       if (mounted) {
         setState(() {
           _isNeedToShowCopySymbol = false;
