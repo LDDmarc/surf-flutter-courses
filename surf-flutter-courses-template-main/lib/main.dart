@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main_widget.dart';
-import 'theme_colors.dart';
+import 'theme/theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,17 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: _makeTheme(),
-        home: MainWidget()
-    );
-  }
-
-  ThemeData _makeTheme() {
-    return ThemeData(
-      brightness: Brightness.light,
-      extensions: <ThemeExtension<dynamic>>[
-        ThemeColors.lightOne
-      ],
+        theme: makeLightOneTheme(),
+        home: const MainWidget()
     );
   }
 }

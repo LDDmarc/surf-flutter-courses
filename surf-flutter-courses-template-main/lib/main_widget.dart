@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/build_context_extension.dart';
-import 'light_first_theme.dart';
-import 'theme_colors.dart';
+import 'theme/light_first_theme.dart';
+import 'theme/theme_colors.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -20,24 +20,13 @@ class _MainWidgetState extends State<StatefulWidget> {
     );
   }
 
-  ThemeData _makeTheme() {
-    return ThemeData(
-      brightness: Brightness.light,
-      extensions: <ThemeExtension<dynamic>>[
-        ThemeColors.lightOne
-      ],
-    );
-  }
-
-  // UI Elements
-
   AppBar _makeAppBar() {
     return AppBar(
       elevation: 0,
       title: const Text('Профиль'),
       leading: const BackButton(),
       actions: [
-        TextButton(onPressed: (){}, child: const Text('Save'))
+        TextButton(onPressed: () {}, child: const Text('Save'))
       ],
     );
   }
@@ -46,46 +35,74 @@ class _MainWidgetState extends State<StatefulWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _makeAvatar(),
+        const AvatarWidget(),
         const SizedBox(height: 24),
-        _makeAwardsWidget(),
+        const AwardsWidget(),
         const SizedBox(height: 24),
-        Expanded(flex: 2, child: _makeList()),
-        const Spacer(),
-        _makeLogoutButton(),
-        const SizedBox(height: 24),
-      ],
-    );
-  }
-
-  Widget _makeAvatar() {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        const CircleAvatar(
-            radius: 40,
-            backgroundImage: AssetImage('assets/moc_icon.png')
+        Expanded(
+            flex: 5,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+              child: _makeList(),
+            )
         ),
-        TextButton(onPressed: (){}, child: const Text('Edit'))
+        const Spacer(flex: 1),
+        const LogoutButton(),
+        const SizedBox(height: 24),
       ],
     );
   }
 
-  Widget _makeAwardsWidget() {
-    final awards = ['assets/first_medal.png', 'assets/first_medal.png', 'assets/third_medal.png', 'assets/second_medal.png', 'assets/third_medal.png'];
-    return Column(
+  Widget _makeList() {
+    return ListView(
       children: [
-        const Text('Мои награды'),
-        const SizedBox(height: 12),
-        Wrap(
-          spacing: 16,
-          children: awards.map((e) => Image(image: AssetImage(e), width: 32, height: 32)).toList(),
-        )
+        const RowWidget(
+            title: 'Имя', subtitle: 'Маркус Хассельборг', onTap: null),
+        const SizedBox(height: 8),
+        const RowWidget(
+            title: 'Email', subtitle: 'MarkusHSS@gmail.com', onTap: null),
+        const SizedBox(height: 8),
+        RowWidget(title: 'Команда', subtitle: 'Сборная Швеции', onTap: () {}),
+        const SizedBox(height: 8),
+        RowWidget(title: 'Позиция', subtitle: 'Скип', onTap: () {}),
+        const SizedBox(height: 8),
+        RowWidget(
+            title: 'Тема оформления', subtitle: 'Системная', onTap: () {}),
       ],
     );
   }
+}
 
-  Widget _makeRow({required String title, required String subtitle, void Function()? onTap}) {
+
+
+// subwidgets
+
+class RowWidget extends StatefulWidget {
+  final VoidCallback? onTap;
+  final String title;
+  final String subtitle;
+
+  const RowWidget({super.key, required this.title, required this.subtitle, required this.onTap});
+
+  @override
+  State<StatefulWidget> createState() => _RowWidgetState();
+}
+
+class _RowWidgetState extends State<RowWidget> {
+  late VoidCallback? onTap;
+  late String title;
+  late String subtitle;
+
+  @override
+  void initState() {
+    super.initState();
+    onTap = widget.onTap;
+    title = widget.title;
+    subtitle = widget.subtitle;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -100,8 +117,8 @@ class _MainWidgetState extends State<StatefulWidget> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: TextStyle(color: context.color.descriptionTitleColor)),
-                      Text(subtitle)
+                      Text(title, style: context.textTheme.labelSmall),
+                      Text(subtitle, style: context.textTheme.labelMedium)
                     ],
                   ),
                   const Spacer(),
@@ -115,20 +132,50 @@ class _MainWidgetState extends State<StatefulWidget> {
       ),
     );
   }
+}
 
-  Widget _makeList() {
-    return ListView(
+class AvatarWidget extends StatelessWidget {
+  const AvatarWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
       children: [
-        _makeRow(title: 'Имя', subtitle: 'Маркус Хассельборг'),
-        _makeRow(title: 'Email', subtitle: 'MarkusHSS@gmail.com'),
-        _makeRow(title: 'Команда', subtitle: 'Сборная Швеции', onTap: (){}),
-        _makeRow(title: 'Позиция', subtitle: 'Скип', onTap: (){}),
-        _makeRow(title: 'Тема оформления', subtitle: 'Системная', onTap: (){}),
+        const CircleAvatar(
+            radius: 40,
+            backgroundImage: AssetImage('assets/moc_icon.png')
+        ),
+        TextButton(onPressed: (){}, child: const Text('Edit'))
       ],
     );
   }
+}
 
-  Widget _makeLogoutButton() {
+class AwardsWidget extends StatelessWidget {
+  const AwardsWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final awards = ['assets/first_medal.png', 'assets/first_medal.png', 'assets/third_medal.png', 'assets/second_medal.png', 'assets/third_medal.png'];
+    return Column(
+      children: [
+        Text('Мои награды', style: TextStyle(fontSize: 14, color: Color(0xFF77767B)) /*context.textTheme.labelSmall*/),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 16,
+          children: awards.map((e) => Image(image: AssetImage(e), width: 32, height: 32)).toList(),
+        )
+      ],
+    );
+  }
+}
+
+class LogoutButton extends StatelessWidget {
+  const LogoutButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
     return OutlinedButton(
       onPressed: (){},
       style: ButtonStyle(
