@@ -10,6 +10,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_svg: ^2.0.7
+  money_formatter: ^0.0.4
+  intl: ^0.18.1
+  bottom_sheet: ^3.1.2
+  grouped_list: ^5.1.2
 
 dev_dependencies:
   flutter_test:
@@ -18,3 +23,10 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Sora
+      fonts:
+        - asset: fonts/Sora-Regular.ttf
+        - asset: fonts/Sora-Bold.ttf
+  assets:
+      - assets/
