@@ -10,15 +10,20 @@ class ProductSortingBottomSheetWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ProductSortingBottomSheetState(sortingType, onSortingTypeSelected: onSortingTypeSelected);
+    return _ProductSortingBottomSheetState();
   }
 }
 
 class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWidget> {
-  ProductSorting? _groupValue;
-  void Function(ProductSorting?) onSortingTypeSelected;
+  late ProductSorting? _groupValue;
+  late void Function(ProductSorting?) onSortingTypeSelected;
 
-  _ProductSortingBottomSheetState(this._groupValue, { required this.onSortingTypeSelected });
+  @override
+  void initState() {
+    super.initState();
+    _groupValue = widget.sortingType;
+    onSortingTypeSelected = widget.onSortingTypeSelected;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +134,7 @@ class _ProductSortingBottomSheetState extends State<ProductSortingBottomSheetWid
       children: [
         const Text('Сортировка', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
         const Spacer(),
-        Container(
+        SizedBox(
           height: 24,
           width: 24,
           child: IconButton(

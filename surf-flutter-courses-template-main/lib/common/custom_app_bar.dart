@@ -15,23 +15,17 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Appearance.backgroundColor,
       leading: ((){
         if (!isBackButtonHidden) {
-          return const BackButton(
-          color: Appearance.accentColor,
-        );
+          return const BackButton(color: Appearance.accentColor);
         }
       }()),
-      title: ((){
-        if (subtitle != null) {
-          return Column(
-            children: [
-              Text(title, style: const TextStyle(color: Appearance.primaryForegroundColor, fontWeight: FontWeight.bold)),
-              Text(subtitle!, style: const TextStyle(color: Appearance.iconColor, fontSize: 10))
-            ],
-          );
-        } else {
-          return Text(title, style: const TextStyle(color: Appearance.primaryForegroundColor, fontWeight: FontWeight.bold));
-        }
-      }()),
+      title: subtitle != null
+      ? Column(
+        children: [
+          Text(title, style: const TextStyle(color: Appearance.primaryForegroundColor, fontWeight: FontWeight.bold)),
+          Text(subtitle!, style: const TextStyle(color: Appearance.iconColor, fontSize: 10))
+        ],
+      )
+      : Text(title, style: const TextStyle(color: Appearance.primaryForegroundColor, fontWeight: FontWeight.bold))
     );
   }
 

@@ -16,20 +16,24 @@ class ProductListScreenWidget extends StatefulWidget {
   const ProductListScreenWidget({super.key, required this.cheque});
 
   @override
-  State<StatefulWidget> createState() =>_ProductListScreenState(cheque);
+  State<StatefulWidget> createState() =>_ProductListScreenState();
 }
 
 class _ProductListScreenState extends State<ProductListScreenWidget> {
-  final Cheque cheque;
+  late Cheque cheque;
   final productSortingManager = ProductSortingManager();
 
-  List<ProductEntity> _productList;
+  late List<ProductEntity> _productList;
   ProductSorting _type = ProductSorting.none;
-  bool _isLoading;
+  late bool _isLoading;
 
-  _ProductListScreenState(this.cheque) :
-        _productList = cheque.productList,
-        _isLoading = false;
+  @override
+  void initState() {
+    super.initState();
+    cheque = widget.cheque;
+    _productList = cheque.productList;
+    _isLoading = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,17 +43,11 @@ class _ProductListScreenState extends State<ProductListScreenWidget> {
         subtitle: cheque.dateString,
         isBackButtonHidden: false,
       ),
-      body: ((){
-        if (_isLoading) {
-          return const Center(child: CircularProgressIndicator(color: Appearance.accentColor));
-        } else {
-          if (_productList.isNotEmpty) {
-            return _makeContent();
-          } else {
-            return const Center(child: Text('Здесь пока ничего нет'));
-          }
-        }
-      }())
+      body: _isLoading
+      ? const Center(child: CircularProgressIndicator(color: Appearance.accentColor))
+      : _productList.isNotEmpty
+      ? _makeContent()
+      : const Center(child: Text('Здесь пока ничего нет'))
     );
   }
 
