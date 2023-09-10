@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:surf_flutter_courses_template/build_context_extension.dart';
+import 'package:surf_flutter_courses_template/theme_settings_bottom_sheet.dart';
 import 'theme/light_first_theme.dart';
 import 'theme/theme_colors.dart';
+import 'package:bottom_sheet/bottom_sheet.dart';
+import 'app_theme.dart';
+import 'theme_settings_bottom_sheet.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({super.key});
@@ -67,9 +71,33 @@ class _MainWidgetState extends State<StatefulWidget> {
         RowWidget(title: 'Позиция', subtitle: 'Скип', onTap: () {}),
         const SizedBox(height: 8),
         RowWidget(
-            title: 'Тема оформления', subtitle: 'Системная', onTap: () {}),
+            title: 'Тема оформления', subtitle: 'Системная', onTap: () {
+          showFlexibleBottomSheet(
+            initHeight: 0.6,
+            minHeight: 0.6,
+            bottomSheetColor: Colors.transparent,
+            context: context,
+            builder: _buildBottomSheet,
+            isExpand: true,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20.0),
+                    topRight: Radius.circular(20.0)
+                ),
+                color: Colors.white,
+            ),
+          );
+        }),
       ],
     );
+  }
+
+  Widget _buildBottomSheet(
+      BuildContext context,
+      ScrollController scrollController,
+      double bottomSheetOffset,
+      ) {
+    return ThemeSettingsBottomSheet(theme: AppTheme.system);
   }
 }
 
